@@ -1,0 +1,25 @@
+form .polymorphic_has_many_container fieldset
+  position: relative
+
+form .polymorphic_has_many_container fieldset:not(:last-of-type)
+  border-bottom: 1px solid lightgray
+  margin-bottom: 20px
+
+.input.refile img.image-preview
+  margin: 0.5em 0 0 20%
+  display: block
+
+form .polymorphic_has_many_container .handle
+  position: absolute
+  top: calc(50% - 60px)
+  right: 2px
+  padding: 0
+  cursor: move
+
+  &.ui-sortable-handle
+    top: calc(50% - 42px)
+
+  span.icon
+    width: 3em
+    height: 3em
+  
