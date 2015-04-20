@@ -51,7 +51,11 @@ module ActiveadminPolymorphic
         contents << has_many_form.input(builder_options[:sortable], as: :hidden)
 
         contents << template.content_tag(:li, class: 'handle') do
-          ::ActiveAdmin::Iconic.icon :move_vertical
+          '''
+          <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" width="30px" height="25px" viewBox="0 0 550 550" enable-background="new 0 0 550 550" xml:space="preserve">
+            <path d="M418.909,456.728h-93.091v-288l-93.091,93.091V139.637L372.363,0L512,139.637v122.182l-93.091-93.091V456.728z   M93.091,84.363h93.091v288l93.091-93.091v122.182L139.637,541.091L0,401.454V279.272l93.091,93.091V84.363z"></path>
+          </svg>
+          '''.html_safe
         end
       end
 
