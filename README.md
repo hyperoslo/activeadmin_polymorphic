@@ -46,7 +46,9 @@ The gem extends activeadmin's form builder, so to enable the `has_many_polymorph
 SECTIONABLES = [Image, Text]
 
 form builder: ActiveadminPolymorphic::FormBuilder do |f|
-  f.polymorphic_has_many :sections, :sectionable, types: SECTIONABLES
+  f.inputs do
+    f.polymorphic_has_many :sections, :sectionable, types: SECTIONABLES
+  end
 end
 ...
 ```
