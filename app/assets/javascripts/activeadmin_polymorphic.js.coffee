@@ -160,7 +160,7 @@ window.remoteSubmit = (target, callback)->
         loadErrors(target)
     .on 'ajax:success', (event, object, status, response) ->
       $(target).attr('action', action)
-      if response.status == 201 # created
+      unless $(target).next().find('input:first').val() # create
         $(target).next().find('input:first').val(object.id)
         # replace new form with edit form
         # to update form method to PATCH and form action
