@@ -34,7 +34,6 @@ $ ->
 
     extractAndInsertForm formPath, rapper
 
-
   $(document).on 'click', 'a.button.polymorphic_has_many_remove', (e)->
     e.preventDefault()
     parent    = $(@).closest '.polymorphic_has_many_container'
@@ -62,7 +61,6 @@ $ ->
       parent.trigger 'polymorphic_has_many_add:after', [fieldset, parent]
 
   init_polymorphic_sortable()
-
 
   $('.polymorphic_has_many_container').on 'change', '.polymorphic_type_select', (event) ->
     fieldset = $(this).closest 'fieldset'
@@ -114,7 +112,7 @@ recompute_positions = (parent)->
     if sortable_input.length
       sortable_input.val if destroy_input.is ':checked' then '' else position++
 
-window.extractAndInsertForm= (url, target)->
+window.extractAndInsertForm = (url, target)->
   target = $ target
 
   $.get url, (data)->
@@ -135,7 +133,6 @@ window.loadErrors = (target) ->
     $(form).on 'submit', -> return false
 
     $(target).replaceWith(form)
-
 
 window.remoteSubmit = (target, callback)->
   $(target).data('remote', true)
@@ -169,4 +166,3 @@ window.remoteSubmit = (target, callback)->
         $(target).remove()
 
       callback()
-
