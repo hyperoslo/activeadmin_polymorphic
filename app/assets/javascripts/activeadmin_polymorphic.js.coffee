@@ -115,7 +115,7 @@ recompute_positions = (parent)->
 window.extractAndInsertForm = (url, target)->
   target = $ target
 
-  $.get url, (data)->
+  $.get url + '.html', (data)->
     elements = $(data)
     form = $('#main_content form', elements).first()
     $(form).find('.actions').remove()
