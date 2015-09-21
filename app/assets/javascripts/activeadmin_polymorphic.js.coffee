@@ -129,17 +129,6 @@ window.extractAndInsertForm = (url, target)->
       container = $(target).closest '.polymorphic_has_many_container'
       container.trigger "polymorphic_has_many_form:inserted", [form]
 
-  $.get url, (data)->
-    elements = $(data)
-    form = $('#main_content form', elements).first()
-    $(form).find('.actions').remove()
-    $(form).on 'submit', -> return false
-
-    target.prepend form
-
-    container = $(target).closest '.polymorphic_has_many_container'
-    container.trigger "polymorphic_has_many_form:inserted", [form]
-
 window.loadErrors = (target) ->
   $(target).off('ajax:success') # unbind successfull action for json form
   $(target).trigger('submit.rails').on 'ajax:success', (event, data, result) ->
