@@ -115,16 +115,19 @@ recompute_positions = (parent)->
 window.extractAndInsertForm = (url, target)->
   target = $ target
 
-  $.get url, (data)->
-    elements = $(data)
-    form = $('#main_content form', elements).first()
-    $(form).find('.actions').remove()
-    $(form).on 'submit', -> return false
+  $.ajax url,
+    headers:
+      Accept: 'text/html'
+    success: (data)->
+      elements = $(data)
+      form = $('#main_content form', elements).first()
+      $(form).find('.actions').remove()
+      $(form).on 'submit', -> return false
 
-    target.prepend form
+      target.prepend form
 
-    container = $(target).closest '.polymorphic_has_many_container'
-    container.trigger "polymorphic_has_many_form:inserted", [form]
+      container = $(target).closest '.polymorphic_has_many_container'
+      container.trigger "polymorphic_has_many_form:inserted", [form]
 
 window.loadErrors = (target) ->
   $(target).off('ajax:success') # unbind successfull action for json form
