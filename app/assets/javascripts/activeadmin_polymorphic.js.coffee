@@ -130,8 +130,10 @@ window.extractAndInsertForm = (url, target)->
       container.trigger "polymorphic_has_many_form:inserted", [form]
 
 window.loadErrors = (target) ->
-  $(target).off('ajax:success') # unbind successfull action for json form
-  $(target).trigger('submit.rails').on 'ajax:success', (event, data, result) ->
+  $(target).off('ajax:success').off('ajaxBeforeSend')
+  $(target).on 'ajax:beforeSend', (event, xhr, setting) ->
+    xhr.setRequestHeader 'Accept', 'text/html'
+  .trigger('submit.rails').on 'ajax:success', (event, data, result) ->
     # duplicates method above. refactor using callbacks
     elements = $(data)
     form = $('#main_content form', elements).first()
@@ -139,30 +141,27 @@ window.loadErrors = (target) ->
     $(form).on 'submit', -> return false
 
     $(target).replaceWith(form)
+    container = $(form).closest '.polymorphic_has_many_container'
+    container.trigger "polymorphic_has_many_form:inserted", [ form ]
 
 window.remoteSubmit = (target, callback)->
+  action = $(target).attr('action')
   $(target).data('remote', true)
   $(target).removeAttr('novalidate')
-  action = $(target).attr('action')
   $(target).find("input[type=file]").remove()
-  # we gonna burn in hell for that
-  # perhaps we can use ajax:before callback
-  # to set type json
-  action_with_json = action + '.json'
-  $(target).attr('action', action_with_json)
 
   # unbind callbacks action for form if it was submitted before
-  $(target).off('ajax:success').off('ajax:aborted:file').off('ajax:error')
+  $(target).off('ajax:success').off('ajax:aborted:file').off('ajax:error').off 'ajax:beforeSend'
 
-  $(target).trigger('submit.rails')
+  $(target).on 'ajax:beforeSend', (event, xhr, setting) ->
+    xhr.setRequestHeader 'Accept', 'application/json'
+  .trigger('submit.rails')
     .on 'ajax:aborted:file', (inputs) ->
       false
     .on 'ajax:error', (event, response, status)->
-      $(target).attr('action', action)
       if response.status == 422
         loadErrors(target)
     .on 'ajax:success', (event, object, status, response) ->
-      $(target).attr('action', action)
       unless $(target).next().find('input:first').val() # create
         $(target).next().find('input:first').val(object.id)
         # replace new form with edit form
