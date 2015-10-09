@@ -114,6 +114,8 @@ recompute_positions = (parent)->
 
 window.extractAndInsertForm = (url, target)->
   target = $ target
+  container = $(target).closest '.polymorphic_has_many_container'
+  container.trigger "polymorphic_has_many_form:beforeInsert", [ target ]
 
   $.ajax url,
     headers:
@@ -126,11 +128,10 @@ window.extractAndInsertForm = (url, target)->
 
       target.prepend form
 
-      container = $(target).closest '.polymorphic_has_many_container'
       container.trigger "polymorphic_has_many_form:inserted", [form]
 
 window.loadErrors = (target) ->
-  $(target).off('ajax:success').off('ajaxBeforeSend')
+  $(target).off('ajax:success').off('ajax:beforeSend')
   $(target).on 'ajax:beforeSend', (event, xhr, setting) ->
     xhr.setRequestHeader 'Accept', 'text/html'
   .trigger('submit.rails').on 'ajax:success', (event, data, result) ->
