@@ -16,4 +16,6 @@ Gem::Specification.new do |s|
 
   s.files         = `git ls-files`.split("\n").sort
   s.test_files    = `git ls-files -- {spec,features}/*`.split("\n")
+
+  s.add_dependency 'spinjs-rails', '~> 1.4'
 end

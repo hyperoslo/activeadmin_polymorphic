@@ -1,3 +1,4 @@
+require "spinjs-rails"
 require "activeadmin_polymorphic/engine"
 require "activeadmin_polymorphic/form_builder"
 
