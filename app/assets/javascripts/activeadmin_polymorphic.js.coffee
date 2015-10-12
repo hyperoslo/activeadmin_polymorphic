@@ -1,3 +1,11 @@
+#= require spin
+
+spinner_opts =
+  lines: 8
+  length: 4
+  width: 3
+  radius: 5
+
 $ ->
   if $('.polymorphic_has_many_container').length
     form = $('#main_content').find('form:first')
@@ -34,7 +42,7 @@ $ ->
 
     extractAndInsertForm formPath, rapper
 
-  $(document).on 'click', 'a.button.polymorphic_has_many_remove', (e)->
+  $(document).on 'click', 'a.button.polymorphic_has_many_remove', (e) ->
     e.preventDefault()
     parent    = $(@).closest '.polymorphic_has_many_container'
     to_remove = $(@).closest 'fieldset'
@@ -44,7 +52,7 @@ $ ->
     to_remove.remove()
     parent.trigger 'polymorphic_has_many_remove:after', [to_remove, parent]
 
-  $(document).on 'click', 'a.button.polymorphic_has_many_add', (e)->
+  $(document).on 'click', 'a.button.polymorphic_has_many_add', (e) ->
     e.preventDefault()
     parent = $(@).closest '.polymorphic_has_many_container'
     parent.trigger before_add = $.Event('polymorphic_has_many_add:before'), [parent]
@@ -98,7 +106,7 @@ stripEmptyRelations = ->
     if $(@).val() == ""
       $(@).parents('.polymorphic_has_many_fields').remove()
 
-recompute_positions = (parent)->
+recompute_positions = (parent) ->
   parent     = if parent instanceof jQuery then parent else $(@)
   input_name = parent.data 'sortable'
   position   = parseInt(parent.data('sortable-start') || 0, 10)
@@ -112,23 +120,38 @@ recompute_positions = (parent)->
     if sortable_input.length
       sortable_input.val if destroy_input.is ':checked' then '' else position++
 
-window.extractAndInsertForm = (url, target)->
+init_loading_indicator = (target) ->
+  spinner = new Spinner(spinner_opts).spin()
+  $(target).height(50).children().hide()
+  $(target).append spinner.el
+
+  spinner
+
+stop_loading_indicator = (target, spinner) ->
+  spinner.stop()
+  $(target).height('').children().show()
+
+window.extractAndInsertForm = (url, target) ->
   target = $ target
+  spinner = init_loading_indicator(target)
   container = $(target).closest '.polymorphic_has_many_container'
   container.trigger "polymorphic_has_many_form:beforeInsert", [ target ]
 
   $.ajax url,
     headers:
       Accept: 'text/html'
-    success: (data)->
+    success: (data) ->
       elements = $(data)
       form = $('#main_content form', elements).first()
       $(form).find('.actions').remove()
       $(form).on 'submit', -> return false
 
+      stop_loading_indicator(target, spinner)
       target.prepend form
 
       container.trigger "polymorphic_has_many_form:inserted", [form]
+    error: (xhr, status, error) ->
+      stop_loading_indicator(target, spinner)
 
 window.loadErrors = (target) ->
   $(target).off('ajax:success').off('ajax:beforeSend')
@@ -145,7 +168,7 @@ window.loadErrors = (target) ->
     container = $(form).closest '.polymorphic_has_many_container'
     container.trigger "polymorphic_has_many_form:inserted", [ form ]
 
-window.remoteSubmit = (target, callback)->
+window.remoteSubmit = (target, callback) ->
   action = $(target).attr('action')
   $(target).data('remote', true)
   $(target).removeAttr('novalidate')
@@ -159,7 +182,7 @@ window.remoteSubmit = (target, callback)->
   .trigger('submit.rails')
     .on 'ajax:aborted:file', (inputs) ->
       false
-    .on 'ajax:error', (event, response, status)->
+    .on 'ajax:error', (event, response, status) ->
       if response.status == 422
         loadErrors(target)
     .on 'ajax:success', (event, object, status, response) ->
