@@ -4,6 +4,7 @@ gemspec
 
 gem 'activeadmin', github: 'activeadmin'
 gem 'inherited_resources'
+gem 'spinjs-rails'
 
 group :development do
   # Debugging
