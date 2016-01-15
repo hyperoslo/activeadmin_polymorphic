@@ -161,10 +161,12 @@ window.loadErrors = (target) ->
     # duplicates method above. refactor using callbacks
     elements = $(data)
     form = $('#main_content form', elements).first()
-    $(form).find('.actions').remove()
+    fieldset = form.find('fieldset').first()
+
+    $(fieldset).find('.actions').remove()
     $(form).on 'submit', -> return false
 
-    $(target).replaceWith(form)
+    $(target).find('fieldset').replaceWith(fieldset)
     container = $(form).closest '.polymorphic_has_many_container'
     container.trigger "polymorphic_has_many_form:inserted", [ form ]
 
