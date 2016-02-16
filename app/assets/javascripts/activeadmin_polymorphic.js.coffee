@@ -167,8 +167,8 @@ window.loadErrors = (target) ->
     $(form).on 'submit', -> return false
 
     $(target).find('fieldset').replaceWith(fieldset)
-    container = $(form).closest '.polymorphic_has_many_container'
-    container.trigger "polymorphic_has_many_form:inserted", [ form ]
+    container = $(target).closest '.polymorphic_has_many_container'
+    container.trigger "polymorphic_has_many_form:inserted", [ target ]
 
 window.remoteSubmit = (target, callback) ->
   action = $(target).attr('action')
