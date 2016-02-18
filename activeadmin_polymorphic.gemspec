@@ -8,8 +8,8 @@ Gem::Specification.new do |s|
   s.license     = "MIT"
   s.name        = "activeadmin_polymorphic"
   s.version     = ActiveadminPolymorphic::VERSION
-  s.authors     = ["Petr Sergeev", "Sindre Moen"]
-  s.email       = ["peter@hyper.no", "sindre@hyper.no"]
+  s.authors     = ["Petr Sergeev", "Sindre Moen", "Vasiliy Ermolovich"]
+  s.email       = ["peter@hyper.no", "sindre@hyper.no", "younash@gmail.com"]
   s.description = 'This gem extends formtastic\'s form builder to support polymoprhic has many relations in your forms'
   s.summary     = 'HasMany polymoprhic support for active admin.'
   s.homepage    = "https://github.com/hyperoslo/activeadmin-polymorphic"
