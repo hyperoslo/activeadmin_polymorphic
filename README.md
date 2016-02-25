@@ -67,8 +67,8 @@ This gem is a set of dirty hacks and tricks. Calling `polymorphic_has_many` make
 * for new records it generates a dropdown with polymorphic types
 * for exising records it generates two hidden fields with `id` and `type`
 * then the real JavaScript starts, it extracts whole forms from polymorphic models new or edit pages, strips form actions, and inserts those forms right into the parent form
-* when you try to submit forms, JavaScript submits subforms first; if subforms are invalid, it reloads them with erros and interupts the main form's submission process
-* after all subforms have been successfully saved, it strips them (because forms nested into other forms are simantically invalid, right?) and submits the parent form
+* when you try to submit forms, JavaScript submits subforms first; if subforms are invalid, it reloads them with errors and interrupts the main form's submission process
+* after all subforms have been successfully saved, it strips them (because forms nested into other forms are semantically invalid, right?) and submits the parent form
 
 # File uploads in subforms
 
