@@ -185,11 +185,17 @@ window.remoteSubmit = (target, callback) ->
     xhr.setRequestHeader 'Accept', 'application/json'
   .trigger('submit.rails')
     .on 'ajax:aborted:file', (inputs) ->
+      $(parentForm).trigger('ajax:complete.rails')
+
       false
     .on 'ajax:error', (event, response, status) ->
+      $(parentForm).trigger('ajax:complete.rails')
+
       if response.status == 422
         loadErrors(target)
     .on 'ajax:success', (event, object, status, response) ->
+      $(parentForm).trigger('ajax:complete.rails')
+
       unless $(target).next().find('input:first').val() # create
         $(target).next().find('input:first').val(object.id)
         # replace new form with edit form
