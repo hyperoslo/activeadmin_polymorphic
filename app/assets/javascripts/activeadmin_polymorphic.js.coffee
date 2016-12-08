@@ -17,7 +17,7 @@ $ ->
         e.preventDefault()
 
       $(@).find('form').each ->
-        remoteSubmit @, ->
+        remoteSubmit @, parentForm, ->
           submissions_counter++
           if submissions_counter == expect
             $(form).find('form').remove()
@@ -172,7 +172,7 @@ window.loadErrors = (target) ->
     container.trigger "polymorphic_has_many_form:inserted", [ target ]
     $(target).find('.has_many_container').trigger('has_many_add:after')
 
-window.remoteSubmit = (target, callback) ->
+window.remoteSubmit = (target, parentForm, callback) ->
   action = $(target).attr('action')
   $(target).data('remote', true)
   $(target).removeAttr('novalidate')
